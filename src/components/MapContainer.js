@@ -3,7 +3,7 @@ import { Map, InfoWindow, Marker, GoogleApiWrapper, Polyline } from 'google-maps
 import DenseAppBar from './DenseAppBar'
 import MenuButton from './MenuButton'
 import LocationSearchingButton from './LocationSearchingButton'
-import Avatar from '@material-ui/core/Avatar';
+import {template} from './MarkerIcons';
 import icon from '../images/icon.jpg'
 export class MapContainer extends Component {
   constructor(props) {
@@ -72,24 +72,30 @@ export class MapContainer extends Component {
 
   render() {
     console.log(this.props.google)
+
+    const {google} = this.props
+
+    const template = [
+      '<?xml version="1.0"?>',
+      '<svg width="50px" height="50px" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">',
+      '<image xlink:href="'+icon+'" height="50" width="50"/>',
+      '</svg>'
+  ].join('\n')
+
+    const svg = template.replace('{{ color }}', '#800');
+
     return (
       <React.Fragment>
         <DenseAppBar />
-        <Map google={this.props.google}
+        <Map google={google}
           center={this.state.pos}
           disableDefaultUI={true}
           onClick={this.onMapClicked}>
           <Marker onClick={this.onMarkerClick}
             name={'Current location'}
             position={this.state.pos}
-            icon={{
-              path: 'M0-48c-9.8 0-17.7 7.8-17.7 17.4 0 15.5 17.7 30.6 17.7 30.6s17.7-15.4 17.7-30.6c0-9.6-7.9-17.4-17.7-17.4z',
-              fillColor: '#00CCBB',
-              fillOpacity: 1,
-              strokeColor: '',
-              strokeWeight: 0,
-              icon: { icon }
-            }}
+            icon={{ url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg), scaledSize: new google.maps.Size(50, 50) }}
+            markerLa
 
           />
 
