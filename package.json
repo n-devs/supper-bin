@@ -6,11 +6,15 @@
     "@fullpage/react-fullpage": "^0.1.13",
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
+    "classnames": "^2.2.6",
     "google-maps-react": "^2.0.2",
+    "lodash": "^4.17.11",
+    "map-icons": "^3.0.3",
     "prop-types": "^15.7.2",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
     "react-google-map-apis": "^0.1.2",
+    "react-is": "^16.8.6",
     "react-scripts": "2.1.8"
   },
   "scripts": {

@@ -1,56 +1,112 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import IconButton from '@material-ui/core/IconButton';
-import IconMenu from '@material-ui/icons/Menu';
-import Grid from '@material-ui/core/Grid';
-import Toolbar from '@material-ui/core/Toolbar';
+import Fab from '@material-ui/core/Fab';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import MenuIcon from '@material-ui/icons/Menu';
+import HomeIcon from '@material-ui/icons/Home'
+import Grow from '@material-ui/core/Grow';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
+import BusinessIcon from '@material-ui/icons/Business';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 
 const styles = theme => ({
-  button: {
+  fab: {
     margin: theme.spacing.unit,
   },
-  bottomAppBar: {
-    top: 'auto',
-    bottom: 0
+  extendedIcon: {
+    marginRight: theme.spacing.unit,
   },
-  menuBtn: {
-    position: 'absolute',
-    zIndex: 1,
-    top: -20,
-    left: 0,
-    right: 0,
-    margin: '0 auto',
-  },
-  toolbar: {
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
+  menuButton: {
+    position: "absolute",
+    zIndex: 1000,
+    bottom: 0,
+    marginBottom: 80,
+    marginLeft: 15,
+    width: 40,
+    height: 40
+  }
 });
 
 const theme = createMuiTheme({
   palette: {
-    primary: { main: 'rgb(255, 255, 255, 0)' },
-    secondary: { main: 'rgb(255, 255, 255, 0)' }
-  }
-})
+    primary: {
+      main: "#43a047"
+    },
+  },
+  typography: {
+    useNextVariants: true,
+  },
+});
 
-function MenuButton(props) {
-  const { classes } = props;
-  return (
-    <MuiThemeProvider theme={theme}>
-      <AppBar elevation={0} position="fixed" color="primary" className={classes.bottomAppBar}>
-        <Toolbar variant="dense" className={classes.toolbar}>
-          <Grid container justify="center" alignItems="center" className={classes.menuBtn} >
-            <IconButton className={classes.button} aria-label="Menu">
-              <IconMenu />
-            </IconButton>
-          </Grid>
-        </Toolbar>
-      </AppBar>
-    </MuiThemeProvider>
-  );
+
+class MenuButton extends React.Component {
+
+  state = {
+    open: false,
+  };
+
+  handleToggle = () => {
+    this.setState(state => ({ open: !state.open }));
+  };
+
+  handleClose = event => {
+    if (this.anchorEl.contains(event.target)) {
+      return;
+    }
+
+    this.setState({ open: false });
+  };
+
+  render() {
+    const { classes } = this.props;
+    const { open } = this.state;
+    return (
+      <MuiThemeProvider theme={theme}>
+        <div className={classes.menuButton}>
+          <Fab
+            size="medium"
+            color="primary"
+            aria-label="Add"
+            className={classes.fab}
+            buttonRef={node => {
+              this.anchorEl = node;
+            }}
+            aria-owns={open ? 'menu-list-grow' : undefined}
+            aria-haspopup="true"
+            onClick={this.handleToggle}
+          >
+            {open == false
+              ? <MenuIcon />
+              : <KeyboardArrowDownIcon />
+            }
+
+          </Fab >
+        </div>
+        <Popper open={open} anchorEl={this.anchorEl} transition disablePortal>
+          {({ TransitionProps, placement }) => (
+            <Grow
+              {...TransitionProps}
+              id="menu-list-grow"
+              style={{ transformOrigin: placement === 'bottom' ? 'top' : 'bottom' }}
+            >
+              <Paper >
+                <ClickAwayListener onClickAway={this.handleClose}>
+                  <MenuList>
+                    <MenuItem onClick={this.handleClose}><HomeIcon /></MenuItem>
+                    <MenuItem onClick={this.handleClose}><BusinessIcon /></MenuItem>
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
+      </MuiThemeProvider>
+    );
+  }
 }
 
 MenuButton.propTypes = {

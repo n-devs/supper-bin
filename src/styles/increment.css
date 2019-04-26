@@ -1,0 +1,22 @@
+
+
+#increment-component button {
+    background-color: black;
+    font-size: 16px;
+    border-color: transparent;
+    border-radius: 3px;
+    padding: 5px;
+}
+
+#increment-component input {
+    font-size: 16px;
+    margin: 0px 5px;
+    text-align: center;
+    width: 48px;
+}
+
+#increment-component sub {
+    color: red;
+    font-weight: bold;
+    padding-left: 5px;
+}
