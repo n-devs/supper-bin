@@ -15,7 +15,7 @@
     "react-dom": "^16.8.5",
     "react-google-map-apis": "^0.1.2",
     "react-is": "^16.8.6",
-    "react-scripts": "2.1.8"
+    "react-scripts": "5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
